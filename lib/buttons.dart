@@ -31,7 +31,7 @@ class MyButton extends StatelessWidget {
   final String buttonText;
   final Function()? buttonTapped;
 
-//Constructor
+  //Constructor
   const MyButton(
       {Key? key,
       this.color,
@@ -50,38 +50,17 @@ class MyButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: color,
           shape: const StadiumBorder(),
+          fixedSize: const Size.fromRadius(10),
+          elevation: 3.0
         ),
         onPressed: buttonTapped,
         child: Text(
             buttonText,
             style: TextStyle(
               color: textColor,
-              fontSize: 25,
+              fontSize: 22.5,
               fontWeight: FontWeight.bold,
             ),
           )
   );
-
-  // Widget _tapDetect() => GestureDetector(
-  //   onTap: buttonTapped,
-  //   child: Padding(
-  //     padding: const EdgeInsets.all(3),
-  //     child: ClipRRect(
-  //       borderRadius: BorderRadius.circular(69),
-  //       child: Container(
-  //         color: color,
-  //         child: Center(
-  //           child: Text(
-  //             buttonText,
-  //             style: TextStyle(
-  //               color: textColor,
-  //               fontSize: 25,
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   ),
-  // );
 }

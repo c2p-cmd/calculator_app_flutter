@@ -22,12 +22,12 @@ class _HomePageState extends State<HomePage> {
       );
 
   Container userInputField() => Container(
-    padding: const EdgeInsets.all(30),
+    padding: const EdgeInsets.all(27),
     alignment: Alignment.centerRight,
     child: Text(
       userInput,
       style:
-      const TextStyle(fontSize: 25, color: Colors.white),
+      const TextStyle(fontSize: 27, color: Colors.white),
     ),
   );
 
@@ -51,23 +51,23 @@ class _HomePageState extends State<HomePage> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  const Padding(padding: EdgeInsets.only(top: 27)),
+                  const Padding(padding: EdgeInsets.only(top: 15)),
                   userInputField(),
                   answerField(),
+                  allButtons()
                 ]
             ),
           ),
-          allButtons()
         ],
       );
 
   Expanded allButtons() => Expanded(
     flex: 2,
     child: GridView.builder(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(16),
         itemCount: buttons.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 140
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
         ),
         itemBuilder: (BuildContext context, int index) {
           // Clear Button
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                   if (userInput != '' && userInput != '0') {
                     userInput = '-'+userInput;
                   }
-                  equalPressed();
+                  computeValue();
                 });
               },
               buttonText: buttons[index],
@@ -133,8 +133,7 @@ class _HomePageState extends State<HomePage> {
             return MyButton(
               buttonTapped: () {
                 setState(() {
-                  userInput = '';
-                  equalPressed();
+                  showExpression();
                 });
               },
               buttonText: buttons[index],
@@ -150,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   userInput += buttons[index];
                   if (!isOperator(buttons[index])) {
-                    equalPressed();
+                    computeValue();
                   }
                 });
               },
@@ -165,8 +164,14 @@ class _HomePageState extends State<HomePage> {
           }
         }),
   );
-  
-  void equalPressed() {
+
+  void showExpression() {
+    computeValue();
+    userInput = answer;
+    answer = '';
+  }
+
+  void computeValue() {
     final _finalUserInput = userInput.replaceAll('x', '*');
     answer = Parser().parse(_finalUserInput).evaluate(
         EvaluationType.REAL, ContextModel()
