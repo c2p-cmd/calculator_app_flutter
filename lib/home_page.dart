@@ -22,27 +22,23 @@ class _HomePageState extends State<HomePage> {
       );
 
   Container userInputField() => Container(
-    padding: const EdgeInsets.all(27),
-    alignment: Alignment.centerRight,
-    child: Text(
-      userInput,
-      style:
-      const TextStyle(fontSize: 27, color: Colors.white),
-    ),
-  );
+        padding: const EdgeInsets.all(27),
+        alignment: Alignment.centerRight,
+        child: Text(
+          userInput,
+          style: const TextStyle(fontSize: 27, color: Colors.white),
+        ),
+      );
 
   Container answerField() => Container(
-    padding: const EdgeInsets.all(18),
-    alignment: Alignment.centerRight,
-    child: Text(
-      answer,
-      style: const TextStyle(
-          fontSize: 30,
-          color: Colors.white,
-          fontWeight: FontWeight.bold
-      ),
-    ),
-  );
+        padding: const EdgeInsets.all(18),
+        alignment: Alignment.centerRight,
+        child: Text(
+          answer,
+          style: const TextStyle(
+              fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      );
 
   Widget _column() => Column(
         children: <Widget>[
@@ -55,115 +51,110 @@ class _HomePageState extends State<HomePage> {
                   userInputField(),
                   answerField(),
                   allButtons()
-                ]
-            ),
+                ]),
           ),
         ],
       );
 
-  Expanded allButtons() => Expanded(
-    flex: 2,
-    child: GridView.builder(
-      padding: const EdgeInsets.all(16),
-        itemCount: buttons.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          // Clear Button
-          if (index == 0) {
-            return MyButton(
-              buttonTapped: () {
-                setState(() {
-                  userInput = '';
-                  answer = '0';
-                });
-              },
-              buttonText: buttons[index],
-              color: secondary,
-              textColor: Colors.black,
-            );
-          }
+  Widget allButtons() => Expanded(
+        flex: 3,
+        child: GridView.builder(
+            padding: const EdgeInsets.fromLTRB(2, 2, 2, 0),
+            itemCount: buttons.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              // Clear Button
+              if (index == 0) {
+                return MyButton(
+                  buttonTapped: () => setState(() {
+                    userInput = '';
+                    answer = '0';
+                  }),
+                  buttonText: buttons[index],
+                  color: secondary,
+                  textColor: Colors.black,
+                );
+              }
 
-          // +/- button
-          else if (index == 1) {
-            return MyButton(
-              buttonTapped: () {
-                setState(() {
-                  if (userInput != '' && userInput != '0') {
-                    userInput = '-'+userInput;
-                  }
-                  computeValue();
-                });
-              },
-              buttonText: buttons[index],
-              color: primary,
-              textColor: Colors.black,
-            );
-          }
-          // % Button
-          else if (index == 2) {
-            return MyButton(
-              buttonTapped: () {
-                setState(() {
-                  userInput += buttons[index];
-                });
-              },
-              buttonText: buttons[index],
-              color: primary,
-              textColor: Colors.black,
-            );
-          }
-          // Delete Button
-          else if (index == 3) {
-            return MyButton(
-              buttonTapped: () {
-                setState(() {
-                  userInput =
-                      userInput.substring(0, userInput.length - 1);
-                });
-              },
-              buttonText: buttons[index],
-              color: primary,
-              textColor: Colors.black,
-            );
-          }
-          // Equal_to Button
-          else if (index == 18) {
-            return MyButton(
-              buttonTapped: () {
-                setState(() {
-                  showExpression();
-                });
-              },
-              buttonText: buttons[index],
-              color: const Color(0xffcf6679),
-              textColor: Colors.white,
-            );
-          }
+              // +/- button
+              else if (index == 1) {
+                return MyButton(
+                  buttonTapped: () {
+                    setState(() {
+                      if (userInput != '' && userInput != '0') {
+                        userInput = '-' + userInput;
+                      }
+                      computeValue();
+                    });
+                  },
+                  buttonText: buttons[index],
+                  color: primary,
+                  textColor: Colors.black,
+                );
+              }
+              // % Button
+              else if (index == 2) {
+                return MyButton(
+                  buttonTapped: () {
+                    setState(() {
+                      userInput += buttons[index];
+                    });
+                  },
+                  buttonText: buttons[index],
+                  color: primary,
+                  textColor: Colors.black,
+                );
+              }
+              // Delete Button
+              else if (index == 3) {
+                return MyButton(
+                  buttonTapped: () => setState(() {
+                    if (userInput.isNotEmpty) {
+                      userInput = userInput.substring(0, userInput.length - 1);
+                      computeValue();
+                    }
+                  }),
+                  buttonText: buttons[index],
+                  color: primary,
+                  textColor: Colors.black,
+                );
+              }
+              // Equal_to Button
+              else if (index == 18) {
+                return MyButton(
+                  buttonTapped: () => setState(() {
+                    showExpression();
+                  }),
+                  buttonText: buttons[index],
+                  color: const Color(0xffcf6679),
+                  textColor: Colors.white,
+                );
+              }
 
-          //  other buttons
-          else {
-            return MyButton(
-              buttonTapped: () {
-                setState(() {
-                  userInput += buttons[index];
-                  if (!isOperator(buttons[index])) {
-                    computeValue();
-                  }
-                });
-              },
-              buttonText: buttons[index],
-              color: isOperator(buttons[index])
-                  ? primary
-                  : const Color(0xff3700b3),
-              textColor: isOperator(buttons[index])
-                  ? const Color(0xff121212)
-                  : Colors.white70,
-            );
-          }
-        }),
-  );
+              //  other buttons
+              else {
+                return MyButton(
+                  buttonTapped: () {
+                    setState(() {
+                      userInput += buttons[index];
+                      if (!isOperator(buttons[index])) {
+                        computeValue();
+                      }
+                    });
+                  },
+                  buttonText: buttons[index],
+                  color: isOperator(buttons[index])
+                      ? primary
+                      : const Color(0xff3700b3),
+                  textColor: isOperator(buttons[index])
+                      ? const Color(0xff121212)
+                      : Colors.white70,
+                );
+              }
+            }),
+      );
 
   void showExpression() {
     computeValue();
@@ -173,9 +164,10 @@ class _HomePageState extends State<HomePage> {
 
   void computeValue() {
     final _finalUserInput = userInput.replaceAll('x', '*');
-    answer = Parser().parse(_finalUserInput).evaluate(
-        EvaluationType.REAL, ContextModel()
-    ).toString();
+    answer = Parser()
+        .parse(_finalUserInput)
+        .evaluate(EvaluationType.REAL, ContextModel())
+        .toString();
   }
 }
 
