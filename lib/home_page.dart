@@ -59,99 +59,88 @@ class _HomePageState extends State<HomePage> {
   Widget allButtons() => Expanded(
         flex: 3,
         child: GridView.builder(
-            padding: const EdgeInsets.fromLTRB(2, 2, 2, 0),
             itemCount: buttons.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
+              mainAxisSpacing: 10,
             ),
             itemBuilder: (BuildContext context, int index) {
-              // Clear Button
-              if (index == 0) {
-                return MyButton(
-                  buttonTapped: () => setState(() {
-                    userInput = '';
-                    answer = '0';
-                  }),
-                  buttonText: buttons[index],
-                  color: secondary,
-                  textColor: Colors.black,
-                );
-              }
-
-              // +/- button
-              else if (index == 1) {
-                return MyButton(
-                  buttonTapped: () {
-                    setState(() {
-                      if (userInput != '' && userInput != '0') {
-                        userInput = '-' + userInput;
-                      }
-                      computeValue();
-                    });
-                  },
-                  buttonText: buttons[index],
-                  color: primary,
-                  textColor: Colors.black,
-                );
-              }
-              // % Button
-              else if (index == 2) {
-                return MyButton(
-                  buttonTapped: () {
-                    setState(() {
-                      userInput += buttons[index];
-                    });
-                  },
-                  buttonText: buttons[index],
-                  color: primary,
-                  textColor: Colors.black,
-                );
-              }
-              // Delete Button
-              else if (index == 3) {
-                return MyButton(
-                  buttonTapped: () => setState(() {
-                    if (userInput.isNotEmpty) {
-                      userInput = userInput.substring(0, userInput.length - 1);
-                      computeValue();
-                    }
-                  }),
-                  buttonText: buttons[index],
-                  color: primary,
-                  textColor: Colors.black,
-                );
-              }
-              // Equal_to Button
-              else if (index == 18) {
-                return MyButton(
-                  buttonTapped: () => setState(() {
-                    showExpression();
-                  }),
-                  buttonText: buttons[index],
-                  color: const Color(0xffcf6679),
-                  textColor: Colors.white,
-                );
-              }
-
-              //  other buttons
-              else {
-                return MyButton(
-                  buttonTapped: () {
-                    setState(() {
-                      userInput += buttons[index];
-                      if (!isOperator(buttons[index])) {
+              switch (index) {
+                case 0:
+                  return MyButton(
+                    buttonTapped: () => setState(() {
+                      userInput = '';
+                      answer = '0';
+                    }),
+                    buttonText: buttons[index],
+                    color: secondary,
+                    textColor: Colors.black,
+                  );
+                case 1:
+                  return MyButton(
+                    buttonTapped: () {
+                      setState(() {
+                        if (userInput != '' && userInput != '0') {
+                          userInput = '-' + userInput;
+                        }
+                        computeValue();
+                      });
+                    },
+                    buttonText: buttons[index],
+                    color: primary,
+                    textColor: Colors.black,
+                  );
+                case 2:
+                  return MyButton(
+                    buttonTapped: () {
+                      setState(() {
+                        userInput += buttons[index];
+                      });
+                    },
+                    buttonText: buttons[index],
+                    color: primary,
+                    textColor: Colors.black,
+                  );
+                case 3:
+                  return MyButton(
+                    buttonTapped: () => setState(() {
+                      if (userInput.isNotEmpty) {
+                        userInput =
+                            userInput.substring(0, userInput.length - 1);
                         computeValue();
                       }
-                    });
-                  },
-                  buttonText: buttons[index],
-                  color: isOperator(buttons[index])
-                      ? primary
-                      : const Color(0xff3700b3),
-                  textColor: isOperator(buttons[index])
-                      ? const Color(0xff121212)
-                      : Colors.white70,
-                );
+                    }),
+                    buttonText: buttons[index],
+                    color: primary,
+                    textColor: Colors.black,
+                  );
+                case 18:
+                  return MyButton(
+                    buttonTapped: () => setState(() {
+                      showExpression();
+                    }),
+                    buttonText: buttons[index],
+                    color: const Color(0xffcf6679),
+                    textColor: Colors.white,
+                  );
+                default:
+                  return MyButton(
+                    buttonTapped: () {
+                      setState(() {
+                        userInput += buttons[index];
+                        if (!isOperator(buttons[index])) {
+                          computeValue();
+                        }
+                      });
+                    },
+                    buttonText: buttons[index],
+                    color: isOperator(buttons[index])
+                        ? primary
+                        : const Color(0xff3700b3),
+                    textColor: isOperator(buttons[index])
+                        ? const Color(0xff121212)
+                        : Colors.white70,
+                  );
               }
             }),
       );
