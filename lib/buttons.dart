@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final List<String> buttons = [
+const List<String> buttons = [
   'C',
   '+/-',
   '%',
@@ -29,15 +29,15 @@ class MyButton extends StatelessWidget {
   final Color? color;
   final Color? textColor;
   final String buttonText;
-  final Function()? buttonTapped;
+  final Function() buttonTapped;
 
   //Constructor
   const MyButton(
       {Key? key,
       this.color,
       this.textColor,
-      this.buttonText = "",
-      this.buttonTapped})
+      required this.buttonText,
+      required this.buttonTapped})
       : super(key: key);
 
   @override
